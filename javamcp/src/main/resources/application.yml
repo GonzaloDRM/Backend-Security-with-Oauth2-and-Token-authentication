@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: javamcp
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mcp_db
+    username: mcp_user
+    password: mcp_password
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Configuración UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+  jackson:
+    default-property-inclusion: non_null
+
+  # ========== OAUTH2 CONFIGURATION ==========
+  security:
+    oauth2:
+      client:
+        registration:
+          # Google OAuth2
+          google:
+            client-id: ACA VA EL CLIENT ID DE GOOGLE
+            client-secret: ACA VA EL CLIENT SECRET DE GOOGLE
+            scope:
+              - email
+              - profile
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+
+          # GitHub OAuth2 (opcional - dejalo comentado por ahora)
+          github:
+            client-id: ACA VA EL CLIENT ID DE GITHUB
+            client-secret: ACA VA EL CLIENT SECRET DE GITHUB
+            scope:
+              - user:email
+              - read:user
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+
+logging:
+  level:
+    root: INFO
+    com.mcp.javamcp: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-stacktrace: on_param
